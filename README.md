@@ -9,8 +9,8 @@ While paused:
 | Button | Action                         |
 |--------|--------------------------------|
 | Select | Start timer                    |
-| Up     | Set remaning time to 5 minutes |
-| Down   | Reset to 0                     |
+| Up     | Set remaning time to 5 minutes, <br/> press again to add 5 more minutes. |
+| Down   | Reset to 0. If the time already has been <br/> set by pressing up, subtract one minute. |
 | Back   | Exit application               |
 
 
@@ -24,11 +24,13 @@ While running:
 | Back   | Exit application               |
 
 ## Changelog
+### 2019-07-06
+More freedom on initial time (e.g. 3 minutes, 10 minutes or an arbitrary number).
+
 ### 2019-05-11
 Initial release. Supports setting timer to 5 minutes, start, stop, sync and reset. 
 
 ## Future features
-* More freedom on initial time (e.g. 3 minutes,  10 minutes or an arbitrary number)
 * Sound and vibration
 * Storing activities
 * GPS data (e.g. speed, heading, trace)
