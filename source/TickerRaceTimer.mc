@@ -6,17 +6,22 @@ using Toybox.System;
 
 class TickerRaceTimer {
 
+    /* -- Attributes -- */
     var myStartTime;
     var myDuration;
     var myPauseTime;
 
     var myIsPaused;
+    var myIsStopped;
 
+    /* -- Constructor -- */
     function initialize() {
         myDuration = 0;
         myIsPaused = true;
+        myIsStopped = true;
     }
 
+    /* -- Global methods -- */
     function togglePause() {
         if (myIsPaused) {
             resume();
@@ -34,16 +39,22 @@ class TickerRaceTimer {
 
     function resume() {
         myIsPaused = false;
+        myIsStopped = false;
 
         myStartTime = new Time.Moment(Time.now().value()).add(new Time.Duration(myDuration));
     }
 
     function reset() {
         myDuration = 0;
+        myIsStopped = true;
     }
 
     function reload() {
         myDuration = 5 * Gregorian.SECONDS_PER_MINUTE;
+    }
+
+    function increment(minutes) {
+        myDuration += minutes * Gregorian.SECONDS_PER_MINUTE;
     }
 
     function syncUp() {

@@ -6,11 +6,13 @@ using Toybox.System;
 
 class TickerDelegate extends Ui.BehaviorDelegate {
 
+    /* -- Attributes -- */
     var myView;
 
     var myRaceTimer;
     var myTimer;
 
+    /* -- Constructor -- */
     function initialize(view) {
         BehaviorDelegate.initialize();
 
@@ -21,6 +23,7 @@ class TickerDelegate extends Ui.BehaviorDelegate {
         myTimer.start(method(:timerCallback), 1000, true);
     }
 
+    /* -- Overridden methods -- */
     function onMenu() {
         return true;
     }
@@ -37,14 +40,23 @@ class TickerDelegate extends Ui.BehaviorDelegate {
 
     function onPreviousPage() {
         if (myRaceTimer.myIsPaused) {
-            myRaceTimer.reload();
+            if (myRaceTimer.myIsStopped) {
+                myRaceTimer.increment(5);
+            } else {
+                myRaceTimer.reload();
+            }
             updateRaceTimer();
+            Ui.requestUpdate();
         }
     }
 
     function onNextPage() {
         if (myRaceTimer.myIsPaused) {
-            myRaceTimer.reset();
+            if (myRaceTimer.myIsStopped) {
+                myRaceTimer.increment(-1);
+            } else {
+                myRaceTimer.reset();
+            }
         } else {
             myRaceTimer.syncDown();
         }
@@ -53,6 +65,7 @@ class TickerDelegate extends Ui.BehaviorDelegate {
         Ui.requestUpdate();
     }
 
+    /* -- Local methods -- */
     function timerCallback() {
         var now = Time.now();
 
