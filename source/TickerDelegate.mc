@@ -12,6 +12,8 @@ class TickerDelegate extends Ui.BehaviorDelegate {
     var myRaceTimer;
     var myTimer;
 
+    var myFeedback;
+
     /* -- Constructor -- */
     function initialize(view) {
         BehaviorDelegate.initialize();
@@ -19,6 +21,7 @@ class TickerDelegate extends Ui.BehaviorDelegate {
         myView = view;
         myRaceTimer = new TickerRaceTimer();
         myTimer = new Timer.Timer();
+        myFeedback = new TickerFeedback();
 
         myTimer.start(method(:timerCallback), 1000, true);
     }
@@ -35,6 +38,9 @@ class TickerDelegate extends Ui.BehaviorDelegate {
 
     function onSelect() {
         myRaceTimer.togglePause();
+
+        updateRaceTimer();
+        Ui.requestUpdate();
         return true;
     }
 
@@ -86,8 +92,17 @@ class TickerDelegate extends Ui.BehaviorDelegate {
     }
 
     function updateRaceTimer() {
-        var timerString = myRaceTimer.toString();
+        var minutes = myRaceTimer.getMinutes();
+        var seconds = myRaceTimer.getSeconds();
+        var timerString = Lang.format(
+                "$1$:$2$",
+                [minutes.format("%.2d"), seconds.format("%.2d")]
+        );
         myView.findDrawableById("centerLabel").setText(timerString);
+
+        if (!myRaceTimer.isPaused() && myRaceTimer.isCountingDown()) {
+            //myFeedback.poke(minutes, seconds);
+        }
     }
 
 }

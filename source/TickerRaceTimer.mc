@@ -55,6 +55,9 @@ class TickerRaceTimer {
 
     function increment(minutes) {
         myDuration += minutes * Gregorian.SECONDS_PER_MINUTE;
+        if (myDuration < 0) {
+            myDuration = 0;
+        }
     }
 
     function syncUp() {
@@ -62,8 +65,7 @@ class TickerRaceTimer {
     }
 
     function syncDown() {
-        var now = Time.now();
-        var duration = myStartTime.compare(now);
+        var duration = getDuration();
 
         if (duration > 0) {
             var seconds = duration % Gregorian.SECONDS_PER_MINUTE;
@@ -71,16 +73,24 @@ class TickerRaceTimer {
         }
     }
 
-    function toString() {
-        var duration = myIsPaused ? myDuration.abs() : myStartTime.compare(Time.now()).abs();
+    function getDuration() {
+        return myIsPaused ? myDuration : myStartTime.compare(Time.now());
+    }
 
-        var seconds = duration % Gregorian.SECONDS_PER_MINUTE;
-        var minutes = (duration - seconds) / Gregorian.SECONDS_PER_MINUTE;
+    function getSeconds() {
+        return getDuration().abs() % Gregorian.SECONDS_PER_MINUTE;
+    }
 
-        return Lang.format(
-                "$1$:$2$",
-                [minutes.format("%.2d"), seconds.format("%.2d")]
-        );
+    function getMinutes() {
+        return Math.floor(getDuration().abs() / Gregorian.SECONDS_PER_MINUTE);
+    }
+
+    function isPaused() {
+        return myIsPaused;
+    }
+
+    function isCountingDown() {
+        return getDuration() >= 0;
     }
 
 }
