@@ -101,7 +101,7 @@ class TickerDelegate extends Ui.BehaviorDelegate {
         myView.findDrawableById("centerLabel").setText(timerString);
 
         if (!myRaceTimer.isPaused() && myRaceTimer.isCountingDown()) {
-            //myFeedback.poke(minutes, seconds);
+            myFeedback.poke(minutes, seconds);
         }
     }
 
