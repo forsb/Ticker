@@ -34,7 +34,7 @@ class TickerRaceTimer {
         myIsPaused = true;
 
         myPauseTime = Time.now();
-        myDuration =  myStartTime.value() - myPauseTime.value();
+        myDuration = myStartTime.value() - myPauseTime.value();
     }
 
     function resume() {
@@ -69,7 +69,7 @@ class TickerRaceTimer {
 
         if (duration > 0) {
             var seconds = duration % Gregorian.SECONDS_PER_MINUTE;
-            myStartTime = new Time.Moment(myStartTime.value()).subtract(new Time.Duration(seconds));
+            myStartTime = new Time.Moment(myStartTime.value() - seconds);
         }
     }
 
